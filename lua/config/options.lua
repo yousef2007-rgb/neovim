@@ -4,7 +4,7 @@ vim.opt.relativenumber = true
 
 
 vim.diagnostic.config({
-    virtual_lines = true,
+    virtual_lines = false,
     underline = true
 })
 vim.opt.tabstop = 4
@@ -32,4 +32,4 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = ""

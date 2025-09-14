@@ -1,8 +1,33 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+local map = vim.keymap.set
+map("n", "<leader>oi", ":TypescriptOrganizeImports<CR>", { buffer = bufnr, desc = "Organize Imports" })
+map("n", "<leader>ai", ":TypescriptAddMissingImports<CR>", { buffer = bufnr, desc = "Add Missing Imports" })
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("n", "<leader>th", function()
+  local ts_configs = require("nvim-treesitter.configs")
+  local parsers = require("nvim-treesitter.parsers")
+
+  -- Get current buffer's language
+  local lang = parsers.get_buf_lang()
+
+  if lang then
+    local enabled = vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()]
+    if enabled then
+      -- Disable highlighting
+      vim.cmd("TSBufDisable highlight")
+      print("Treesitter highlighting disabled for " .. lang)
+    else
+      -- Enable highlighting
+      vim.cmd("TSBufEnable highlight")
+      print("Treesitter highlighting enabled for " .. lang)
+    end
+  else
+    print("No Treesitter parser for this buffer")
+  end
+end, { desc = "Toggle Treesitter highlighting" })
 
 vim.api.nvim_create_autocmd(
   "LspAttach",
